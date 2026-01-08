@@ -7,7 +7,6 @@
 **Date:** 08-01-2026
 
 ## Project Overview
-
 This project focuses on building an end-to-end data management and analytics system for FlexiMart.
 
 ## Repository Structure
