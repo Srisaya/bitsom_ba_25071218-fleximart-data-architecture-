@@ -1,4 +1,4 @@
-🔹 Task 1.1 – Database Schema Design
+Task 1.1 – Database Schema Design
 A normalized relational schema was designed consisting of four core tables:
 Customers – stores customer details
 Products – stores product information
@@ -14,7 +14,7 @@ Normalization justification (3NF)
 Sample data representation
 This ensures the design is well-structured, scalable, and free from redundancy.
 
-🔹 Task 1.3 – Business Query Implementation
+Task 1.3 – Business Query Implementation
 SQL queries were written to answer real business questions such as:
 Total customers and sales
 Best-selling products
