@@ -6,6 +6,7 @@ Orders – records customer orders
 Order_Items – captures products included in each order
 Primary keys and foreign key relationships were defined to maintain data integrity and represent real-world business relationships.
 
+
 Task 1.2 – Database Schema Documentation
 The schema was documented using:
 Entity descriptions with attributes
