@@ -1,0 +1,136 @@
+# Database Schema Documentation – FlexiMart
+
+## Entity–Relationship Description
+
+### ENTITY: customers
+**Purpose:**  
+Stores customer master information for the FlexiMart platform.
+
+**Attributes:**
+- customer_id: Unique identifier for each customer (Primary Key)
+- first_name: Customer's first name
+- last_name: Customer's last name
+- email: Customer email address
+- phone: Standardized contact number
+- city: City of residence
+- registration_date: Date when the customer registered
+
+**Relationships:**
+- One customer can place MANY orders  
+  (1:M relationship with orders table)
+
+---
+
+### ENTITY: products
+**Purpose:**  
+Stores product catalog and inventory information.
+
+**Attributes:**
+- product_id: Unique identifier for each product (Primary Key)
+- product_name: Name of the product
+- category: Product category (Electronics, Fashion, Groceries)
+- price: Unit selling price
+- stock_quantity: Available inventory count
+
+**Relationships:**
+- One product can appear in MANY order items  
+  (1:M relationship with order_items table)
+
+---
+
+### ENTITY: orders
+**Purpose:**  
+Stores order-level transaction information.
+
+**Attributes:**
+- order_id: Unique identifier for each order (Primary Key)
+- customer_id: Customer who placed the order (Foreign Key)
+- order_date: Date of order
+- total_amount: Total monetary value of the order
+- status: Order status (Completed, Pending, Cancelled)
+
+**Relationships:**
+- Each order belongs to ONE customer  
+  (M:1 relationship with customers)
+- One order can contain MANY order items  
+  (1:M relationship with order_items)
+
+---
+
+### ENTITY: order_items
+**Purpose:**  
+Stores detailed line-item information for each order.
+
+**Attributes:**
+- order_item_id: Unique identifier for each order item (Primary Key)
+- order_id: Associated order (Foreign Key)
+- product_id: Product ordered (Foreign Key)
+- quantity: Number of units purchased
+- unit_price: Price per unit at time of purchase
+- subtotal: Calculated as quantity × unit_price
+
+**Relationships:**
+- Each order item belongs to ONE order
+- Each order item references ONE product
+
+---
+
+## Normalization Explanation (3NF)
+
+The database schema is designed following Third Normal Form (3NF) to eliminate redundancy and maintain data integrity.  
+
+The database schema for FlexiMart is designed according to Third Normal Form (3NF) principles to ensure data consistency, eliminate redundancy, and maintain referential integrity. A table is said to be in 3NF if it is in Second Normal Form (2NF) and all non-key attributes are functionally dependent only on the primary key.
+
+In the customers table, all attributes such as first_name, last_name, email, phone, city, and registration_date are fully dependent on customer_id. There are no partial or transitive dependencies. Similarly, in the products table, product_name, category, price, and stock_quantity depend solely on product_id.
+
+The orders table stores order-level information where order_id uniquely determines customer_id, order_date, total_amount, and status. Customer details are not duplicated in this table, preventing redundancy. The order_items table resolves the many-to-many relationship between orders and products by storing quantity, unit_price, and subtotal, all of which depend on order_item_id.
+
+This design avoids update anomalies by ensuring that customer and product data are stored only once. Insert anomalies are prevented because customers and products can exist independently of orders. Delete anomalies are avoided since removing an order does not delete customer or product information. By separating entities into well-defined tables and enforcing primary and foreign key constraints, the schema fully satisfies Third Normal Form requirements.
+
+
+Each non-key attribute is fully functionally dependent on the primary key and not on any other non-key attribute.
+
+**Avoidance of Anomalies:**
+- **Update anomaly:** Customer or product details are stored only once, so updates do not require multiple changes.
+- **Insert anomaly:** New customers or products can be added independently without requiring an order.
+- **Delete anomaly:** Deleting an order does not remove customer or product information.
+
+By separating customers, products, orders, and order items into distinct tables and enforcing foreign key constraints, the design ensures scalability, consistency, and efficient querying, fully satisfying 3NF requirements.
+
+---
+
+## Sample Data Representation
+
+### customers
+
+| customer_id | first_name | last_name | city | registration_date |
+|------------|-----------|-----------|------|-------------------|
+| 1 | Rahul | Sharma | Bangalore | 2023-01-15 |
+| 2 | Priya | Patel | Mumbai | 2023-02-20 |
+
+---
+
+### products
+
+| product_id | product_name | category | price |
+|-----------|-------------|----------|-------|
+| 1 | Samsung Galaxy S21 | Electronics | 45999.00 |
+| 2 | Nike Running Shoes | Fashion | 3499.00 |
+
+---
+
+### orders
+
+| order_id | customer_id | order_date | total_amount | status |
+|---------|-------------|-----------|--------------|--------|
+| 1 | 1 | 2024-01-15 | 45999.00 | Completed |
+| 2 | 2 | 2024-01-16 | 5998.00 | Completed |
+
+---
+
+### order_items
+
+| order_item_id | order_id | product_id | quantity | subtotal |
+|--------------|----------|------------|----------|----------|
+| 1 | 1 | 1 | 1 | 45999.00 |
+| 2 | 2 | 2 | 2 | 6998.00 |
